@@ -1,0 +1,26 @@
+Description: >
+    This template deploys an ECS cluster to the provided VPC and subnets
+    using an Auto Scaling Group
+
+Parameters:
+
+    EnvironmentName:
+        Description: An environment name that will be prefixed to resource names
+        Type: String
+
+Resources:
+
+    SampleManagedPolicy:
+      Type: AWS::IAM::ManagedPolicy
+      Properties:
+        ManagedPolicyName: !Sub ${EnvironmentName}-sqs-policy
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            -
+              Effect: "Allow"
+              Action:
+                - "sqs:DeleteMessage"
+                - "sqs:SendMessage"
+              Resource: 
+                - !Sub arn:aws:sqs:::${EnvironmentName}-*
